@@ -8,7 +8,7 @@
  */
 
 /*
- * EasyAutocomplete - Configuration 
+ * EasyAutocomplete - Configuration
  */
 var EasyAutocomplete = (function(scope){
 
@@ -88,7 +88,7 @@ var EasyAutocomplete = (function(scope){
 				onChooseEvent: function() {},
 				onKeyEnterEvent: function() {},
 				onMouseOverEvent: function() {},
-				onMouseOutEvent: function() {},	
+				onMouseOutEvent: function() {},
 				onShowListEvent: function() {},
 				onHideListEvent: function() {}
 			},
@@ -107,6 +107,8 @@ var EasyAutocomplete = (function(scope){
 
 			ajaxSettings: {},
 
+			transformResponse: function(data) { return data; },
+
 			preparePostData: function(data, inputPhrase) {return data;},
 
 			loggerEnabled: true,
@@ -120,7 +122,7 @@ var EasyAutocomplete = (function(scope){
 			}]
 
 		};
-		
+
 		var externalObjects = ["ajaxSettings", "template"];
 
 		this.get = function(propertyName) {
@@ -132,8 +134,8 @@ var EasyAutocomplete = (function(scope){
 				if (defaults[name] === value) {
 					return true;
 				}
-			} 
-			
+			}
+
 			return false;
 		};
 
@@ -163,7 +165,7 @@ var EasyAutocomplete = (function(scope){
 		mergeOptions();
 
 		if (defaults.loggerEnabled === true) {
-			printPropertiesThatDoesntExist(console, options);	
+			printPropertiesThatDoesntExist(console, options);
 		}
 
 		addAjaxSettings();
@@ -172,7 +174,7 @@ var EasyAutocomplete = (function(scope){
 		function prepareDefaults() {
 
 			if (options.dataType === "xml") {
-				
+
 				if (!options.getValue) {
 
 					options.getValue = function(element) {
@@ -180,11 +182,11 @@ var EasyAutocomplete = (function(scope){
 					};
 				}
 
-				
+
 				if (!options.list) {
 
 					options.list = {};
-				} 
+				}
 
 				if (!options.list.sort) {
 					options.list.sort = {};
@@ -221,7 +223,7 @@ var EasyAutocomplete = (function(scope){
 
 				var categories = [];
 
-				for (var i = 0, length = options.categories.length; i < length; i += 1) { 
+				for (var i = 0, length = options.categories.length; i < length; i += 1) {
 
 					var category = options.categories[i];
 
@@ -249,7 +251,7 @@ var EasyAutocomplete = (function(scope){
 				for (var propertyName in source) {
 					if (target[propertyName] !== undefined && target[propertyName] !== null) {
 
-						if (typeof target[propertyName] !== "object" || 
+						if (typeof target[propertyName] !== "object" ||
 								target[propertyName] instanceof Array) {
 							mergedObject[propertyName] = target[propertyName];
 						} else {
@@ -257,7 +259,7 @@ var EasyAutocomplete = (function(scope){
 						}
 					}
 				}
-			
+
 				/* If data is an object */
 				if (target.data !== undefined && target.data !== null && typeof target.data === "object") {
 					mergedObject.data = target.data;
@@ -265,11 +267,11 @@ var EasyAutocomplete = (function(scope){
 
 				return mergedObject;
 			}
-		}	
+		}
 
 
 		function processAfterMerge() {
-			
+
 			if (defaults.url !== "list-required" && typeof defaults.url !== "function") {
 				var defaultUrl = defaults.url;
 				defaults.url = function() {
@@ -294,7 +296,7 @@ var EasyAutocomplete = (function(scope){
 				} else {
 					defaults.listLocation = function(data) {
 						return data[defaultlistLocation];
-					};	
+					};
 				}
 			}
 
@@ -316,9 +318,9 @@ var EasyAutocomplete = (function(scope){
 			if (options.ajaxSettings !== undefined && typeof options.ajaxSettings === "object") {
 				defaults.ajaxSettings = options.ajaxSettings;
 			} else {
-				defaults.ajaxSettings = {};	
+				defaults.ajaxSettings = {};
 			}
-			
+
 		}
 
 		function isAssigned(name) {
@@ -329,19 +331,19 @@ var EasyAutocomplete = (function(scope){
 			}
 		}
 		function printPropertiesThatDoesntExist(consol, optionsToCheck) {
-			
+
 			checkPropertiesIfExist(defaults, optionsToCheck);
 
 			function checkPropertiesIfExist(source, target) {
 				for(var property in target) {
 					if (source[property] === undefined) {
-						consol.log("Property '" + property + "' does not exist in EasyAutocomplete options API.");		
+						consol.log("Property '" + property + "' does not exist in EasyAutocomplete options API.");
 					}
 
 					if (typeof source[property] === "object" && $.inArray(property, externalObjects) === -1) {
 						checkPropertiesIfExist(source[property], target[property]);
 					}
-				}	
+				}
 			}
 		}
 	};
@@ -882,9 +884,9 @@ var EasyAutocomplete = (function(scope){
  */
 var EasyAutocomplete = (function(scope) {
 
-	
+
 	scope.main = function Core($input, options) {
-				
+
 		var module = {
 				name: "EasyAutocomplete",
 				shortcut: "eac"
@@ -897,7 +899,7 @@ var EasyAutocomplete = (function(scope) {
 			listBuilderService = new scope.ListBuilderService(config, scope.proccess),
 			checkParam = config.equals,
 
-			$field = $input, 
+			$field = $input,
 			$container = "",
 			elementsList = [],
 			selectedElement = -1,
@@ -964,19 +966,19 @@ var EasyAutocomplete = (function(scope) {
 
 
 			prepareField();
-			bindEvents();	
+			bindEvents();
 
 		}
 		function prepareField() {
 
-				
+
 			if ($field.parent().hasClass(consts.getValue("WRAPPER_CSS_CLASS"))) {
 				removeContainer();
 				removeWrapper();
-			} 
-			
+			}
+
 			createWrapper();
-			createContainer();	
+			createContainer();
 
 			$container = $("#" + getContainerId());
 			if (config.get("placeholder")) {
@@ -988,7 +990,7 @@ var EasyAutocomplete = (function(scope) {
 				var $wrapper = $("<div>"),
 					classes = consts.getValue("WRAPPER_CSS_CLASS");
 
-			
+
 				if (config.get("theme") && config.get("theme") !== "") {
 					classes += " eac-" + config.get("theme");
 				}
@@ -1000,7 +1002,7 @@ var EasyAutocomplete = (function(scope) {
 				if (template.getTemplateClass() !== "") {
 					classes += " " + template.getTemplateClass();
 				}
-				
+
 
 				$wrapper
 					.addClass(classes);
@@ -1008,16 +1010,16 @@ var EasyAutocomplete = (function(scope) {
 
 
 				if (config.get("adjustWidth") === true) {
-					adjustWrapperWidth();	
+					adjustWrapperWidth();
 				}
-				
+
 
 			}
 
 			function adjustWrapperWidth() {
 				var fieldWidth = $field.outerWidth();
 
-				$field.parent().css("width", fieldWidth);				
+				$field.parent().css("width", fieldWidth);
 			}
 
 			function removeWrapper() {
@@ -1060,7 +1062,7 @@ var EasyAutocomplete = (function(scope) {
 							}
 
 							config.get("list").onShowListEvent();
-							
+
 						})
 						/* List hide animation */
 						.on("hide.eac", function() {
@@ -1096,7 +1098,7 @@ var EasyAutocomplete = (function(scope) {
 							config.get("list").onSelectItemEvent();
 						})
 						.on("loadElements.eac", function(event, listBuilders, phrase) {
-			
+
 
 							var $item = "",
 								$listContainer = $elements_container.find("ul");
@@ -1121,7 +1123,7 @@ var EasyAutocomplete = (function(scope) {
 
 								for(var i = 0, listDataLength = listData.length; i < listDataLength && counter < listBuilders[builderIndex].maxListSize; i += 1) {
 									$item = $("<li><div class='eac-item'></div></li>");
-									
+
 
 									(function() {
 										var j = i,
@@ -1142,7 +1144,7 @@ var EasyAutocomplete = (function(scope) {
 											.mouseover(function() {
 
 												selectedElement = itemCounter;
-												selectElement(itemCounter);	
+												selectElement(itemCounter);
 
 												config.get("list").onMouseOverEvent();
 											})
@@ -1175,11 +1177,11 @@ var EasyAutocomplete = (function(scope) {
 			function highlight(string, phrase) {
 
 				if(config.get("highlightPhrase") && phrase !== "") {
-					return highlightPhrase(string, phrase);	
+					return highlightPhrase(string, phrase);
 				} else {
 					return string;
 				}
-					
+
 			}
 
 			function escapeRegExp(str) {
@@ -1195,7 +1197,7 @@ var EasyAutocomplete = (function(scope) {
 
 		}
 		function getContainerId() {
-			
+
 			var elementId = $field.attr("id");
 
 			elementId = consts.getValue("CONTAINER_ID") + elementId;
@@ -1205,7 +1207,7 @@ var EasyAutocomplete = (function(scope) {
 		function bindEvents() {
 
 			bindAllEvents();
-			
+
 
 			function bindAllEvents() {
 				if (checkParam("autocompleteOff", true)) {
@@ -1271,7 +1273,7 @@ var EasyAutocomplete = (function(scope) {
 
 								selectElement(selectedElement);
 
-							}						
+							}
 						break;
 
 						case 40:
@@ -1285,7 +1287,7 @@ var EasyAutocomplete = (function(scope) {
 								$field.val(config.get("getValue")(elementsList[selectedElement]));
 
 								selectElement(selectedElement);
-								
+
 							}
 
 						break;
@@ -1311,13 +1313,13 @@ var EasyAutocomplete = (function(scope) {
 								} else {
 									hideContainer();
 								}
-								
+
 							}
 
 
 						break;
 					}
-				
+
 
 					function loadData(inputPhrase) {
 
@@ -1334,13 +1336,13 @@ var EasyAutocomplete = (function(scope) {
 							var listBuilders = listBuilderService.init(data);
 
 							listBuilders = listBuilderService.updateCategories(listBuilders, data);
-							
+
 							listBuilders = listBuilderService.processData(listBuilders, inputPhrase);
 
 							loadElements(listBuilders, inputPhrase);
 
 							if ($field.parent().find("li").length > 0) {
-								showContainer();	
+								showContainer();
 							} else {
 								hideContainer();
 							}
@@ -1364,24 +1366,27 @@ var EasyAutocomplete = (function(scope) {
 
 							settings.data = config.get("preparePostData")(settings.data, inputPhrase);
 
-							$.ajax(settings) 
+							$.ajax(settings)
 								.done(function(data) {
+									if (config.get('transformResponse')) {
+										data = config.get('transformResponse')(data);
+									}
 
 									var listBuilders = listBuilderService.init(data);
 
 									listBuilders = listBuilderService.updateCategories(listBuilders, data);
-									
+
 									listBuilders = listBuilderService.convertXml(listBuilders);
 									if (checkInputPhraseMatchResponse(inputPhrase, data)) {
 
 										listBuilders = listBuilderService.processData(listBuilders, inputPhrase);
 
-										loadElements(listBuilders, inputPhrase);	
-																				
+										loadElements(listBuilders, inputPhrase);
+
 									}
 
 									if (listBuilderService.checkIfDataExists(listBuilders) && $field.parent().find("li").length > 0) {
-										showContainer();	
+										showContainer();
 									} else {
 										hideContainer();
 									}
@@ -1397,7 +1402,7 @@ var EasyAutocomplete = (function(scope) {
 								});
 						}
 
-						
+
 
 						function createAjaxSettings() {
 
@@ -1441,7 +1446,7 @@ var EasyAutocomplete = (function(scope) {
 	        		    evt = evt || window.event;
 	        		    var keyCode = evt.keyCode;
 	        		    if (keyCode === 38) {
-	        		        suppressKeypress = true; 
+	        		        suppressKeypress = true;
 	        		        return false;
 	        		    }
 		        	})
@@ -1471,18 +1476,18 @@ var EasyAutocomplete = (function(scope) {
 				$field.focus(function() {
 
 					if ($field.val() !== "" && elementsList.length > 0) {
-						
+
 						selectedElement = -1;
-						showContainer();	
+						showContainer();
 					}
-									
+
 				});
 			}
 
 			function bindBlur() {
 				$field.blur(function() {
-					setTimeout(function() { 
-						
+					setTimeout(function() {
+
 						selectedElement = -1;
 						hideContainer();
 					}, 250);
@@ -1504,7 +1509,7 @@ var EasyAutocomplete = (function(scope) {
 		}
 
 		function selectElement(index) {
-			
+
 			$container.trigger("selectElement.eac", index);
 		}
 
@@ -1539,13 +1544,13 @@ var EasyAutocomplete = (function(scope) {
 		var fieldId = "";
 
 		do {
-			fieldId = "eac-" + Math.floor(Math.random() * 10000);		
+			fieldId = "eac-" + Math.floor(Math.random() * 10000);
 		} while ($("#" + fieldId).length !== 0);
-		
+
 		elementId = scope.consts.getValue("CONTAINER_ID") + fieldId;
 
 		$(input).attr("id", fieldId);
- 
+
 	};
 
 	scope.setHandle = function(handle, id) {

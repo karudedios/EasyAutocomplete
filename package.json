@@ -37,7 +37,6 @@
     "jquery": "*"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
     "grunt-banner": "~0.2.3",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-concat": "~0.5.1",
